@@ -1,11 +1,9 @@
-
 import Weather from './components/Weather'
 
 function App() {
   return (
-    <div>
-      <Weather>
-      </Weather>
+    <div className='app'>
+      <Weather/>
     </div>
   )
 }
