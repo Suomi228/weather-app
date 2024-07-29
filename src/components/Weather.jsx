@@ -7,7 +7,25 @@ import drizzle_icon from '../assets/drizzle.png'
 import rain_icon from '../assets/rain.png'
 import snow_icon from '../assets/snow.png'
 import wind_icon from '../assets/wind.png'
+import { useEffect } from 'react'
+import axios from 'axios';
+
 function Weather() {
+
+  const search = async (city) => {
+    try {
+      const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${import.meta.env.VITE_APP_ID}`)
+      
+      console.log(response.data)
+    }
+    catch (error) {
+      console.error('Error fetching weather data:', error)
+    }
+  }
+  useEffect(()=>{
+    search('London') 
+  },[])
+
   return (
     <div className='weather'>
       <div className='search-bar'>
