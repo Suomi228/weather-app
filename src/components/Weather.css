@@ -23,3 +23,11 @@
     background-color: #ebfffc;
 
 }
+.search-bar img{
+    background-color: #ebfffc;
+    border-radius: 50%;
+    padding: 15px;
+    width: 50px;
+    cursor: pointer;
+}
+
