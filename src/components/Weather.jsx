@@ -31,6 +31,16 @@ function Weather() {
     "13d": snow_icon,
     "13n": snow_icon,
   }
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearchInput = (event) => {
+    setSearchTerm(event.target.value);
+  };
+  const handleSearchSubmit = (event) => {
+    search(searchTerm);
+    event.preventDefault();
+  };
   const search = async (city) => {
     try {
       const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${import.meta.env.VITE_APP_ID}`)
@@ -51,15 +61,16 @@ function Weather() {
     }
   }
   useEffect(()=>{
-    search('Oslo') 
+    search('Moscow') 
   },[])
 
   return (
     <div className='weather'>
-      <div className='search-bar'>
-        <input id="id" type="text" placeholder='Search'/>
-        <img src={search_icon} alt=""/>
-      </div>
+        <div className='search-bar'>
+          <input id="id" type="text" placeholder='Search' onChange={handleSearchInput}/>
+          <img src={search_icon} alt="" onClick= {handleSearchSubmit}/>
+        </div>
+      
       <img src={wheatherData.icon} alt="" className='weather-icon'/>
       <p className='temperature'>{wheatherData.temperature}°C</p>
       <p className='location'>{wheatherData.location}</p>
