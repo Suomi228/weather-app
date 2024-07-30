@@ -40,15 +40,18 @@ function Weather() {
     event.preventDefault();
   };
   const [message, setMessage] = useState('Enter City Name');
+  const handleError = (data) => {
+    if (data.cod==="404") {
+      setMessage("City Not Found")
+    }
+    else setMessage("Enter City Name")
+  }
   const search = async (city) => {
     try {
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${import.meta.env.VITE_APP_ID}`
       const response = await fetch(url)
       const data = await response.json();
-      if (data.cod==="404") {
-        setMessage("City Not Found")
-        return;
-      }
+      handleError(data);
       console.log(data)
       const icon = allIcons[data.weather[0].icon] || clear_icon;
       setWheatherData({
@@ -58,7 +61,7 @@ function Weather() {
         location: data.name,
         icon: icon
     })
-    setMessage("Enter City Name")
+
     }
     catch (error) {
       setWheatherData(false);
