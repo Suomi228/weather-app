@@ -7,7 +7,6 @@ import drizzle_icon from '../assets/drizzle.png'
 import rain_icon from '../assets/rain.png'
 import snow_icon from '../assets/snow.png'
 import wind_icon from '../assets/wind.png'
-import { useEffect } from 'react'
 import { useState } from 'react'
 
 function Weather() {
@@ -40,11 +39,16 @@ function Weather() {
     search(searchTerm);
     event.preventDefault();
   };
+  const [message, setMessage] = useState('Enter City Name');
   const search = async (city) => {
     try {
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${import.meta.env.VITE_APP_ID}`
       const response = await fetch(url)
       const data = await response.json();
+      if (data.cod==="404") {
+        setMessage("City Not Found")
+        return;
+      }
       console.log(data)
       const icon = allIcons[data.weather[0].icon] || clear_icon;
       setWheatherData({
@@ -54,7 +58,7 @@ function Weather() {
         location: data.name,
         icon: icon
     })
-
+    setMessage("Enter City Name")
     }
     catch (error) {
       setWheatherData(false);
@@ -89,7 +93,7 @@ function Weather() {
         </div>
     </div></> : <>
         <div className='test'>
-          <span className='enter-weather'>Please enter a city name</span>
+          <span className='enter-weather'>{message}</span>
         </div>
     </>}
       
